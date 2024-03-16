@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:auth/data/db.dart';
+import 'package:auth/data/grpc_interceptors.dart';
 import 'package:auth/domain/auth_rpc.dart';
+import 'package:auth/env.dart';
 import 'package:grpc/grpc.dart';
 
 Future<void> startServer() async {
@@ -11,17 +13,19 @@ Future<void> startServer() async {
       services: [
         AuthRpc(),
       ],
-      interceptors: [],
+      interceptors: [
+        GrpcInterceptors.tokenInterceptor,
+      ],
       codecRegistry: CodecRegistry(
         codecs: [
           GzipCodec(),
         ],
       ),
     );
-    await authServer.serve(port: 4400);
+    await authServer.serve(port: Env.port);
     log("Server listen port ${authServer.port}...");
-    db = initDb();
-    db.open();
+
+    db = await initDatabase();
   }, (error, stack) {
     log("error", error: error);
   });

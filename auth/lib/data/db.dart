@@ -1,15 +1,17 @@
+import 'package:auth/env.dart';
 import 'package:stormberry/stormberry.dart';
 
-late Database db;
+late Connection db;
 
-Database initDb() {
-  db = Database(
-    port: 4500,
-    password: "password",
-    username: "admin",
-    useSSL: false,
-    database: "postgres",
-    host: "127.0.0.1",
-  );
-  return db;
-}
+Future<Connection> initDatabase() async => await Connection.open(
+      Endpoint(
+        port: Env.dbPort,
+        password: Env.dbPassword,
+        username: Env.dbUser,
+        database: Env.dbName,
+        host: Env.dbHost,
+      ),
+      settings: ConnectionSettings(
+        sslMode: SslMode.disable,
+      ),
+    );
