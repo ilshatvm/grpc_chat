@@ -3,13 +3,16 @@ import 'dart:developer';
 
 import 'package:chats/data/db.dart';
 import 'package:chats/data/grpc_interceptors.dart';
+import 'package:chats/domain/chats_rpc.dart';
 import 'package:chats/env.dart';
 import 'package:grpc/grpc.dart';
 
 Future<void> startServer() async {
   runZonedGuarded(() async {
     final chatsServer = Server.create(
-      services: [],
+      services: [
+        ChatRpc(),
+      ],
       interceptors: [
         GrpcInterceptors.tokenInterceptor,
       ],
