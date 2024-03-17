@@ -1,5 +1,5 @@
-import 'package:auth/auth.dart' as auth;
-import 'package:auth/env.dart';
+import 'package:chats/chats.dart';
+import 'package:chats/env.dart';
 
 void main(List<String> arguments) {
   print("port ${Env.port}");
@@ -8,5 +8,5 @@ void main(List<String> arguments) {
   print("username ${Env.dbUser}");
   print("database ${Env.dbName}");
   print("host ${Env.dbHost}");
-  auth.startServer();
+  startServer();
 }
